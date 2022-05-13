@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name="com.example.jeeny.MainActivity"
+            android:name="com.assignment.jeeny.base.BaseActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.assignment.jeeny.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

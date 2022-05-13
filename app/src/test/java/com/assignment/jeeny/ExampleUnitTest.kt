@@ -1,4 +1,4 @@
-package com.example.jeeny
+package com.assignment.jeeny
 
 import org.junit.Test
 
