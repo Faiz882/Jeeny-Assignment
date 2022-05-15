@@ -1,6 +1,7 @@
 package com.assignment.jeeny.di
 
 import com.assignment.jeeny.network.GithubService
+import com.example.jeeny.BuildConfig
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -18,7 +19,7 @@ class RetrofitModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(BuildConfig.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

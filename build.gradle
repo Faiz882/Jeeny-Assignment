@@ -32,7 +32,6 @@ ext {
     lifecycleVersion = "2.4.1"
     materialVersion = "1.6.0"
     navigationVersion = "2.3.5"
-    roomVersion = "2.2.6"
     testExtJunitVersion = "1.1.2"
     work_version = "2.5.0"
     fresco_version = "2.5.0"
@@ -47,6 +46,7 @@ ext {
     google_play_services = '19.0.0'
     recylerViewVersion = '1.2.1'
     paging_version = "3.0.0"
+    roomVersion = "2.4.2"
 }
 
 task clean(type: Delete) {
