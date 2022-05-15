@@ -23,5 +23,7 @@ class RoomDbModule {
         .fallbackToDestructiveMigration()
         .build()
 
+    @Singleton
+    @Provides
     fun provideGithubDao(db: AppDatabase) = db.githubRepoDao()
 }

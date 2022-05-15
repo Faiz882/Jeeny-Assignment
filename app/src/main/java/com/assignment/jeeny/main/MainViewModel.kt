@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.assignment.jeeny.base.MainRepo
+import com.assignment.jeeny.model.GithubRepoModel
 import com.assignment.jeeny.model.GithubSearchSearchResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -22,5 +23,11 @@ class MainViewModel @Inject constructor(
         repo.searchRepo(search).collect {
             _githubSearchResponse.postValue(it)
         }
+    }
+
+    fun getSavedSearch() = repo.getSavedSearch()
+
+    fun saveSearch(githubRepoModel: GithubRepoModel) {
+        viewModelScope.launch { repo.saveSearch(githubRepoModel) }
     }
 }

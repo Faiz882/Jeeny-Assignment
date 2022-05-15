@@ -9,7 +9,7 @@ import com.assignment.jeeny.model.GithubRepoModel
 @Dao
 interface GithubRepoDao {
     @Query("SELECT * FROM GithubRepoModel")
-    suspend fun getAll(): LiveData<List<GithubRepoDao>>
+    fun getAll(): LiveData<List<GithubRepoModel>>
 
     @Insert
     suspend fun insertAll(vararg users: GithubRepoModel)

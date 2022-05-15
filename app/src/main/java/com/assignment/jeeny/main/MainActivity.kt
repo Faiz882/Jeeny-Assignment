@@ -21,12 +21,23 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
 
         initUi()
+        initUiListener()
         setupSearch()
+        setupSavedSearch()
     }
 
     private fun initUi() {
         binding.rvSearch.adapter = searchAdapter
         binding.rvSaved.adapter = savedAdapter
+    }
+
+    private fun initUiListener() {
+        searchAdapter.onItemClick = {
+            mainViewModel.saveSearch(it)
+        }
+        savedAdapter.onItemClick = {
+
+        }
     }
 
     private fun setupSearch() {
@@ -41,6 +52,12 @@ class MainActivity : BaseActivity() {
         mainViewModel.githubSearchResponse.observe(this) {
             binding.tvResultCount.text = getString(R.string.result_count, it.totalCount.toString())
             searchAdapter.submitList(it.items)
+        }
+    }
+
+    private fun setupSavedSearch() {
+        mainViewModel.getSavedSearch().observe(this){
+            savedAdapter.submitList(it)
         }
     }
 }

@@ -8,6 +8,7 @@ import com.example.jeeny.databinding.ItemGithubRepoBinding
 
 class GithubRepoAdapter : RecyclerView.Adapter<GithubRepoAdapter.VH>() {
     private var list: List<GithubRepoModel> = emptyList()
+    var onItemClick: ((GithubRepoModel) -> Unit)? = null
 
     inner class VH(private val binding: ItemGithubRepoBinding) :
         RecyclerView.ViewHolder(binding.root) {
