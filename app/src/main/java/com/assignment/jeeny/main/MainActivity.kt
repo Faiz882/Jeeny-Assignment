@@ -1,39 +1,70 @@
 package com.assignment.jeeny.main
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.assignment.jeeny.base.BaseActivity
-import com.assignment.jeeny.detail.DetailActivity
+import com.assignment.jeeny.detail.RepositoryDetailActivity
+import com.assignment.jeeny.enums.Status
+import com.assignment.jeeny.ext.*
 import com.assignment.jeeny.model.GithubRepoModel
+import com.assignment.jeeny.model.GithubSearchSearchResponse
+import com.assignment.jeeny.utils.Constants
 import com.example.jeeny.R
 import com.example.jeeny.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
     private val mainViewModel by viewModels<MainViewModel>()
     private val searchAdapter = GithubRepoAdapter()
     private val savedAdapter = GithubRepoAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initUi()
         initUiListener()
         setupSearch()
         setupSavedSearch()
+        setObserver()
+    }
 
-        mainViewModel.error.observe(this) {
-            if (it.isNullOrEmpty().not())
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+    private fun setObserver() {
+        mainViewModel.githubSearchResponse.observe(this) {
+            when(it.status){
+                Status.LOADING->{
+                    onResponseLoading()
+                }
+                Status.SUCCESS->{
+                    binding.progressBar.hide()
+                    val data = it.data?:return@observe
+                    onResponseSuccess(data)
+                }
+                Status.ERROR->{
+                    onResponseError(it.message)
+                }
+            }
         }
+    }
+
+    private fun onResponseLoading() {
+        binding.progressBar.show()
+    }
+
+    private fun onResponseError(it: String?) {
+        binding.progressBar.hide()
+        val message = it ?: getString(R.string.something_went_wrong_please_try_again_later)
+        showToast(message)
+    }
+
+    private fun onResponseSuccess(data: GithubSearchSearchResponse) {
+        binding.tvResultCount.text = getString(R.string.result_count, data.totalCount.toString())
+        searchAdapter.submitList(data.items)
     }
 
     private fun initUi() {
@@ -42,12 +73,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initUiListener() {
-        fun openDetail(repo: GithubRepoModel){
-            startActivity(
-                Intent(this, DetailActivity::class.java).also {
-                    it.putExtra("repo", repo)
-                }
-            )
+        fun openDetail(repo: GithubRepoModel) {
+            val bundle = Bundle()
+            bundle.putParcelable(Constants.Repo, repo)
+            startActivityBundle(RepositoryDetailActivity::class.java, bundle)
         }
 
         searchAdapter.onItemClick = {
@@ -67,19 +96,13 @@ class MainActivity : BaseActivity() {
                 mainViewModel.searchRepo(it.toString())
             }
         }
-        binding.etSearch.setOnEditorActionListener { _, i, _ ->
-            if (i == EditorInfo.IME_ACTION_SEARCH) {
-                val search = binding.etSearch.text.toString()
-                if (search.isNotEmpty()) mainViewModel.searchRepo(search)
-                true
-            } else
-                false
-        }
 
-        mainViewModel.githubSearchResponse.observe(this)
-        {
-            binding.tvResultCount.text = getString(R.string.result_count, it.totalCount.toString())
-            searchAdapter.submitList(it.items)
+        binding.etSearch.onSearch {
+            val search = binding.etSearch.text.toString()
+            if (search.isNotEmpty()) {
+                mainViewModel.searchRepo(search)
+                hideKeyboard()
+            }
         }
     }
 

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name="com.assignment.jeeny.detail.DetailActivity"
+            android:name="com.assignment.jeeny.detail.RepositoryDetailActivity"
             android:exported="false" />
         <activity
             android:name="com.assignment.jeeny.splash.SplashActivity"
