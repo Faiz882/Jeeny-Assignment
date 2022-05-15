@@ -33,7 +33,9 @@ class MainActivity : BaseActivity() {
         binding.inSearchMode = false
         binding.etSearch.addTextChangedListener {
             binding.inSearchMode = it.isNullOrEmpty().not()
-            if (!it.isNullOrEmpty().not()) mainViewModel.searchRepo(it.toString())
+            if (!it.isNullOrEmpty().not() && it.toString().length >= 3) {
+                mainViewModel.searchRepo(it.toString())
+            }
         }
 
         mainViewModel.githubSearchResponse.observe(this) {
