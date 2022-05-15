@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GitHub</string>
+    <string name="repository_library">Repository Library</string>
+    <string name="save_repositories">Saved Repositories</string>
+    <string name="search_for_repository">Search for repository</string>
+    <string name="result_count">%1s results</string>
 </resources>
