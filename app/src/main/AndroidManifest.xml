@@ -13,9 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name="com.assignment.jeeny.detail.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name="com.assignment.jeeny.splash.SplashActivity"
-            android:noHistory="true"
-            android:exported="true">
+            android:exported="true"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +30,7 @@
             android:exported="false" />
         <activity
             android:name="com.assignment.jeeny.main.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

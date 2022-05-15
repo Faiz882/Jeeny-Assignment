@@ -1,10 +1,13 @@
 package com.assignment.jeeny.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 @Entity
+@Parcelize
 data class GithubRepoModel(
     @PrimaryKey
     val id: Int,
@@ -22,7 +25,7 @@ data class GithubRepoModel(
     val stargazersCount: Int?,
     @SerializedName("open_issues_count")
     val openIssuesCount: Int?
-)
+) : Parcelable
 
 data class GithubSearchSearchResponse(
     @SerializedName("total_count")

@@ -8,7 +8,10 @@ import com.assignment.jeeny.base.MainRepo
 import com.assignment.jeeny.model.GithubRepoModel
 import com.assignment.jeeny.model.GithubSearchSearchResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,10 +22,17 @@ class MainViewModel @Inject constructor(
     private val _githubSearchResponse = MutableLiveData<GithubSearchSearchResponse>()
     val githubSearchResponse: LiveData<GithubSearchSearchResponse> = _githubSearchResponse
 
+    private val _error = MutableLiveData<String?>(null)
+    val error: LiveData<String?> = _error
+
+
     fun searchRepo(search: String) = viewModelScope.launch {
-        repo.searchRepo(search).collect {
-            _githubSearchResponse.postValue(it)
-        }
+        repo.searchRepo(search)
+            .catch {
+                _error.postValue(this.toString())
+                _error.postValue(null)
+            }
+            .collect { _githubSearchResponse.postValue(it) }
     }
 
     fun getSavedSearch() = repo.getSavedSearch()

@@ -15,6 +15,7 @@ class GithubRepoAdapter : RecyclerView.Adapter<GithubRepoAdapter.VH>() {
 
         fun bind(item: GithubRepoModel) {
             binding.repo = item
+            binding.root.setOnClickListener { onItemClick?.invoke(item) }
         }
     }
 
