@@ -4,4 +4,9 @@
     <string name="save_repositories">Saved Repositories</string>
     <string name="search_for_repository">Search for repository</string>
     <string name="result_count">%1s results</string>
+    <string name="something_went_wrong_please_try_again_later">Something went wrong! Please try again later</string>
+    <string name="forks">Forks</string>
+    <string name="Issues">issues</string>
+    <string name="starred_by">Starred by</string>
+    <string name="last_release_version">Last Release Version</string>
 </resources>

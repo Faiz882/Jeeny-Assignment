@@ -1,4 +1,4 @@
-package com.assignment.jeeny.base
+package com.assignment.jeeny.repository
 
 import com.assignment.jeeny.db.GithubRepoDao
 import com.assignment.jeeny.model.GithubRepoModel
@@ -14,16 +14,16 @@ import javax.inject.Inject
 class MainRepo @Inject constructor(
     private val githubService: GithubService,
     private val githubRepoDao: GithubRepoDao
-) {
-    suspend fun searchRepo(search: String): Flow<GithubSearchSearchResponse> {
+) : IMainRepo {
+    override suspend fun searchRepo(search: String): Flow<GithubSearchSearchResponse> {
         return flow {
             emit(githubService.searchRepo(search))
         }.flowOn(Dispatchers.IO)
     }
 
-    fun getSavedSearch() = githubRepoDao.getAll()
+    override fun getSavedSearch() = githubRepoDao.getAll()
 
-    suspend fun saveSearch(githubRepoModel: GithubRepoModel) {
+    override suspend fun saveSearch(githubRepoModel: GithubRepoModel) {
         githubRepoDao.insertAll(githubRepoModel)
     }
 }
