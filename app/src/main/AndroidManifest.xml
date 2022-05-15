@@ -10,10 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name="com.assignment.jeeny.base.BaseActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.assignment.jeeny.MainActivity"
+            android:name="com.assignment.jeeny.splash.SplashActivity"
+            android:noHistory="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.assignment.jeeny.base.BaseActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.assignment.jeeny.MainActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
